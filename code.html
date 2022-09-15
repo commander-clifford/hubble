@@ -1,0 +1,969 @@
+<style media="screen">
+  :root {
+    --max-clr-black: #000000;
+    --max-clr-black-rgb: hexToRGB(#000000);
+    --max-clr-white: #FFFFFF;
+    --max-clr-white-rgb: hexToRGB(#FFFFFF);
+    --max-clr-black-purple: #030328;
+    --max-clr-black-purple-rgb: hexToRGB(#030328);
+    --max-clr-plum: #3C034E;
+    --max-clr-plum-rgb: hexToRGB(#3C034E);
+    --max-clr-light-violet: #9e86ff;
+    --max-clr-light-violet-rgb: hexToRGB(#9e86ff);
+    --max-clr-violet: #5B16BD;
+    --max-clr-violet-rgb: hexToRGB(#5B16BD);
+    --max-clr-dark-violet: #360F66;
+    --max-clr-dark-violet-rgb: hexToRGB(#360F66);
+    --max-clr-regal: #2A0541;
+    --max-clr-regal-rgb: hexToRGB(#2A0541);
+    --max-clr-magenta: #B908F6;
+    --max-clr-magenta-rgb: hexToRGB(#B908F6);
+    --max-clr-rose: #740979;
+    --max-clr-rose-rgb: hexToRGB(#740979);
+    --primary-headline-color: #9e86ff;
+    --primary-background-color: var(--max-clr-black-purple);
+  }
+
+  .hubble {
+    position: relative;
+    display: block;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2em;
+  }
+
+  @media only screen and (min-width: 768px) {
+    .hubble {
+      max-width: 100%;
+    }
+  }
+
+  .hubble .trading-card {
+    display: block;
+    border-radius: 0.5em;
+    overflow: hidden;
+    border: 1px solid #5b1ce6;
+  }
+
+  .hubble img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .hubble__wrapper {
+    position: relative;
+  }
+
+  .hubble__hubs {
+    position: relative;
+    display: flex;
+    border-radius: 3em;
+    padding: 2em 0;
+    background: linear-gradient(45deg, #2A0541, #5B16BD, #740979);
+    isolation: isolate;
+  }
+
+  .hubble__hubs::before,
+  .hubble__hubs::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: inherit;
+    border-radius: 3em;
+  }
+
+  .hubble__hubs::before {
+    filter: blur(0.5em);
+  }
+
+  .hubble__hubs::after {
+    opacity: 0.7;
+    filter: blur(2.2em);
+  }
+
+  .hubble__controls {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 9;
+    border-radius: 3em;
+    width: 100%;
+    height: 100%;
+    color: var(--bs-white);
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .hubble__controls>.control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 3em;
+    opacity: 0.4;
+    pointer-events: fill;
+    cursor: pointer;
+  }
+
+  @media only screen and (min-width: 768px) {
+    .hubble__controls>.control {
+      width: 4em;
+    }
+  }
+
+  .hubble__controls>.control:hover {
+    opacity: 1;
+  }
+
+  .hubble__controls>.control.control--prev {
+    left: 0;
+    background-image: linear-gradient(to left, rgba(42, 5, 65, 0.1), rgba(42, 5, 65, 0.94));
+  }
+
+  .hubble__controls>.control.control--next {
+    right: 0;
+    background-image: linear-gradient(to right, rgba(116, 9, 121, 0.1), rgba(116, 9, 121, 0.94));
+  }
+
+  .hubble__universes {
+    display: none;
+    margin: 2em 0;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  @media only screen and (min-width: 768px) {
+    .hubble__universes {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: .5em;
+    }
+  }
+
+  @media only screen and (min-width: 992px) {
+    .hubble__universes {
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.5em;
+    }
+  }
+
+  @media only screen and (min-width: 1200px) {
+    .hubble__universes {
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.5em;
+    }
+  }
+
+  @media only screen and (min-width: 1400px) {
+    .hubble__universes {
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1em;
+    }
+  }
+
+  .hubble__universes .universe {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hubble__universes .universe .pill {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 500px;
+    padding: 2px;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(45deg, var(--max-clr-dark-violet), var(--max-clr-violet), var(--max-clr-rose));
+    cursor: pointer;
+  }
+
+  .hubble__universes .universe .pill__pop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    padding: 0.5em 1em;
+    border-radius: 500px;
+    background-color: var(--primary-background-color);
+  }
+
+  @media only screen and (min-width: 992px) {
+    .hubble__universes .universe .pill__pop {
+      padding: 0.5em 2em;
+    }
+  }
+
+  @media only screen and (min-width: 1200px) {
+    .hubble__universes .universe .pill__pop {
+      padding: 0.5em 3em;
+    }
+  }
+
+  @media only screen and (min-width: 1400px) {
+    .hubble__universes .universe .pill__pop {
+      padding: 0.5em 2em;
+    }
+  }
+
+  .hubble__universes .universe .pill img {
+    max-height: 100px;
+  }
+
+  .hub {
+    position: absolute;
+    flex-shrink: 0;
+    width: 100%;
+  }
+
+  .hub:first-child {
+    position: relative;
+  }
+
+  .hub__title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    opacity: 0;
+  }
+
+  .hub__title img {
+    max-width: 160px;
+  }
+
+  .hub__array {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25em;
+    margin: 0.5em 0 1em;
+    padding: 0.5em 3em;
+  }
+
+  @media only screen and (min-width: 768px) {
+    .hub__array {
+      padding: 0.5em 4em;
+    }
+  }
+
+  .hub__card {
+    position: relative;
+    flex-basis: calc(50% - 0.5em);
+    opacity: 0;
+  }
+
+  @media only screen and (min-width: 768px) {
+    .hub__card {
+      flex-basis: calc(25% - 0.5em);
+    }
+  }
+
+  .hub__copy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 3em;
+    text-align: center;
+    opacity: 0;
+    color: white;
+  }
+
+  .hub__copy p {
+    margin: 0;
+  }
+
+  @media only screen and (min-width: 768px) {
+    .hub__copy {
+      padding: 0em 4em;
+    }
+  }
+
+
+  .hubble .trading-card {
+    display: block;
+    border-radius: 0.5em;
+    overflow: hidden;
+    border: 1px solid #5b1ce6;
+  }
+</style>
+
+<div class="hubble component">
+
+  <div class="hubble__wrapper">
+
+    <div id="hubs-container" class="hubble__hubs">
+      <!-- hubs append here -->
+    </div>
+
+    <div class="hubble__controls">
+      <div id="prev" class="control control--prev">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-chevron-compact-left" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M9.224 1.553a.5.5 0 0 1 .223.67L6.56 8l2.888 5.776a.5.5 0 1 1-.894.448l-3-6a.5.5 0 0 1 0-.448l3-6a.5.5 0 0 1 .67-.223z" />
+        </svg>
+      </div>
+      <div id="next" class="control control--next">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z" />
+        </svg>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="hubble-universes" class="hubble__universes">
+    <!-- universe pills append here -->
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js" integrity="sha512-eP6ippJojIKXKO8EPLtsUMS+/sAGHGo1UN/38swqZa1ypfcD4I0V/ac5G3VzaHfDaklFmQLEs51lhkkVaqg60Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript">
+  const hubbles = [{
+      title: "HBO",
+      logo: "https://hbomax-images.warnermediacdn.com/2021-10/hubble-logos_hbo-logo.png?host=wme-hbomax-drupal-prod.s3.amazonaws.com",
+      cards: [{
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/tenet-16x9_0.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Tenet"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/mare-of-easttown-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Mare of Easttown (HBO Original)"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/nevers-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "The Nevers (HBO Original)"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/got-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Game of Thrones (HBO Original)"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/last-week-tonight-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Last Week Tonight with John Oliver (HBO Original)"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/new-mutants-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "The New Mutants (HBO)"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/sopranos-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "The Sopranos (HBO Original)"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/ted-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Ted"
+        },
+
+      ],
+      description: 'Enjoy all the culture-defining series, hit movies, and documentaries HBO is known for.'
+    },
+    {
+      title: "MAX Originals",
+      logo: "https://hbomax-images.warnermediacdn.com/2021-10/hubble-logos_max-logo.png?host=wme-hbomax-drupal-prod.s3.amazonaws.com",
+      cards: [{
+          img: "https://hbomax-images.warnermediacdn.com/2021-02/LoveLife_2020_2215293_TileBurnedIn_3840x2160.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Love Life (Max Original)"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-08/zack-snyders-justice-league-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Zack Snyder's Justice League (Max Original)"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-07/raised-by-wolves.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Raised by Wolves (Max Original)"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-09/roalddahls-thewitches-hw.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "The Witches (Max Original)"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2020-11/the-flight-attendant-1200x675.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "The Flight Attendant (Max Original)"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-09/generation-ka.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "generation (Max Original)"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-03/2224674_000_3840x2160.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Made for Love (Max Original)"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-09/selenachefs2ka.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Selena + Chef (Max Original)"
+        },
+      ],
+      description: 'Stream all the exclusive movies, series, and surprises from HBO Max.'
+    },
+    {
+      title: "DC",
+      logo: "https://hbomax-images.warnermediacdn.com/2021-10/hubble-logos_dc-logo.png?host=wme-hbomax-drupal-prod.s3.amazonaws.com",
+      cards: [{
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/ww84-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "WW84 Wonder Woman"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/titans-16x9.png?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "DC Titans"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/aquaman-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Aquaman"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/birds-of-prey.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Birds of Prey"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/suicide-squad-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Suicide Squad"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/joker-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Joker"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/harley-quinn-16x9.png?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Harley Quinn"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/dark-knight-rises-16x9.png?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "The Dark Knight Rises"
+        },
+
+      ],
+      description: 'Get ready for an epic lineup of superhero movies and series from the DC Universe.'
+    },
+    {
+      title: "Sesame Workshop",
+      logo: "https://hbomax-images.warnermediacdn.com/2021-10/hubble-logos_sesame-workshop-logo.png?host=wme-hbomax-drupal-prod.s3.amazonaws.com",
+      cards: [{
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/esme-roy-16x9_0.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Esme & Roy"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/sesame-street-16x9_0.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Sesame Street"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/power-of-we-16x9_0.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Sesame Street: Power of We"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-09/the-not-too-late-show-with-elmo-s2-video-cover.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Not Too Late Show With Elmo"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/my-sesame-street-friends-16x9_0.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "My Sesame Street Friends"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/monster-at-end-of-street-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Sesame Street: The Monster at End of the Street"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/magical-wand-chase-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Sesame Street: The Magical Wand Chase"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/wish-upon-a-pickle-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Sesame Street: When you wish pon a pickle"
+        },
+      ],
+      description: 'Say hello to your favorite friends from Sesame Street, like Big Bird, Elmo, and more.'
+    },
+    {
+      title: "Turner Classic Movies",
+      logo: "https://hbomax-images.warnermediacdn.com/2021-10/hubble-logos_tcm-logo.png?host=wme-hbomax-drupal-prod.s3.amazonaws.com",
+      cards: [{
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/citizen-kane-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Citizen Kane"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/the-wizard-of-oz-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "The Wizard of OZ"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/gone-with-the-wind-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Gone with the Wind"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/bevery-hills-cop-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Beverly Hills Cop"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/pulp-fiction-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Pulp Fiction"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/mulholland-dr-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Mulholland Drive"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/willy-wonka-and-the-chocolate-factory-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Willy Wonka and the Chocolate Factory"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/revenge-of-the-neards-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Revenge of the Nerds"
+        },
+      ],
+      description: 'Channel your nostalgia. Head back to Old Hollywood with classic movies curated by TCM.'
+    },
+    {
+      title: "Studio Ghibli",
+      logo: "https://hbomax-images.warnermediacdn.com/2021-10/hubble-logos_ghibli-studio-logo.png?host=wme-hbomax-drupal-prod.s3.amazonaws.com",
+      cards: [{
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/earwig-and-the-witch-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Earwig and the Witch"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/my-neighbor-totoro-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "My Neighbor Totoro"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/spirited-away-16x9_0.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Spirited Away"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/kikis-delivery-service-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Kiki's Delivery Service"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/howls-moving-castle-16x9_0.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Howl's Moving Castle"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/princess-mononoke-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Princess Mononoke"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/ponyo-16x9_0.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Ponyo"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-04/the-secret-world-of-arrietty-1200x675.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "The Secret World of Arrietty"
+        },
+
+      ],
+      description: 'Experience all the magic and legendary animations from Studio Ghibli.'
+    },
+    {
+      title: "Cartoon Network Collection",
+      logo: "https://hbomax-images.warnermediacdn.com/2021-10/hubble-logos_cartoon-network-logo.png?host=wme-hbomax-drupal-prod.s3.amazonaws.com",
+      cards: [{
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/regular-show-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Regular Show"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/adventure-time-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Adventure Time"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/ed-edd-eddy-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Ed, Edd n Eddy"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/teen-titans-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Teen Titans"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/steven-universe-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Steven Universe"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/craig-of-the-creek-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Craig of the Creek"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/the-grimm-adventures-of-billy-and-mandy.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "The Grim Adventures of Billy & Mandy"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/codename-kid-next-door-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Codename: Kid Next Door"
+        },
+      ],
+      description: 'Discover your family’s favorite characters from the Cartoon Network Collection.'
+    },
+    {
+      title: "Adult Swim Collection",
+      logo: "https://hbomax-images.warnermediacdn.com/2021-10/hubble-logos_adult-swim-logo.png?host=wme-hbomax-drupal-prod.s3.amazonaws.com",
+      cards: [{
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/rick-and-morty-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Rick and Morty"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/the-boondocks-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "The Boondocks"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/robot-chicken-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Robot Chicken"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/samurai-jack-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Samuri Jack"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/aqua-teen-hunger-force-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Aquateen Hunger Force"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/yolo-crystal-adventures-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Yolo Crystal Fantasy"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/loiter-squad-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Loiter Squad"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/primal-16-9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Primal"
+        },
+
+      ],
+      description: 'Our Adult Swim Collection delivers with a mix of far-from-wholesome characters.'
+    },
+    {
+      title: "Crunchyroll Collection",
+      logo: "https://hbomax-images.warnermediacdn.com/2021-10/hubble-logos_crunchyroll-logo.png?host=wme-hbomax-drupal-prod.s3.amazonaws.com",
+      cards: [{
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/jujutsu-kaisen-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "JujuTsu Kaisen"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/the-god-of-highschool-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "The God of High School"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/hunter-x-hunter-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Hunter x Hunter"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/the-promised-neverland-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "The Promised Neverland"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/mob-pshcho-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Mob Psycho 100"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/tower-of-god-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Tower of God"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/death-note-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "DEATH NOTE"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/food-wars-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Food Wars"
+        },
+
+      ],
+      description: 'Dive into Crunchyroll Collection’s addictive anime adventures, mysteries, and romances.'
+    },
+    {
+      title: "Looney Tunes",
+      logo: "https://hbomax-images.warnermediacdn.com/2021-10/hubble-logos_looney-toons-logo.png?host=wme-hbomax-drupal-prod.s3.amazonaws.com",
+      cards: [{
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/mo-looney-tunes-cartoons-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Looney Tunes Cartoon (Max Original)"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/looney-tunes-classic-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Looney Tunes (Classic)"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/space-jam-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Space Jam"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/the-looney-tunes-show-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "The Looney Toons Show"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/new-looney-tunes-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "New Looney Toons"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/sylvester-and-tweety-ysteries-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "The Sylvester & Tweety Mysteries"
+        },
+        {
+          img: "https://hbomax-images.warnermediacdn.com/2021-10/baby-looney-tunes-musical-adventures-16x9.jpg?host=wme-hbomax-drupal-prod.s3.amazonaws.com&w=400",
+          alt: "Baby Looney Toons Musical Adventures"
+        },
+
+      ],
+      description: 'Explore kid-friendly entertainment, starring Looney Tunes in new & classic adventures.'
+    }
+  ];
+  const hubbleTimeline = gsap.timeline({
+    delay: 0.1,
+    // paused: true, // default is false
+    repeat: 0, // number of repeats (-1 for infinite)
+    repeatDelay: 0, // seconds between repeats
+    repeatRefresh: false, // invalidates on each repeat
+    yoyo: false, // if true > A-B-B-A, if false > A-B-A-B
+    defaults: { // children inherit these defaults
+      duration: 0.4,
+      ease: "Power4.in",
+      // ease: "linear",
+    },
+    // smoothChildTiming: true,
+    // autoRemoveChildren: true,
+    // onComplete: myFunc,
+    // other callbacks:
+    // onStart, onUpdate, onRepeat, onReverseComplete
+    // Each callback has a params property as well
+    // i.e. onUpdateParams (Array)
+
+  });
+
+  document.addEventListener("DOMContentLoaded", (e) => {
+
+    // BUILD & APPEND HUB ELEMENTS TO DOM
+    hubbles.map((hubble, i) => {
+
+      // HUB PARENT
+      newHubbleDiv = document.createElement('div');
+      newHubbleDiv.setAttribute("id", "hub-" + i);
+      newHubbleDiv.setAttribute("class", i == 0 ? "hub hub--active" : "hub");
+
+      // HUB TITLE
+      newHubbleTitle = document.createElement('div');
+      newHubbleTitle.setAttribute("class", "hub__title");
+      newHubbleTitleImage = document.createElement('img');
+      newHubbleTitleImage.setAttribute("src", hubble.logo);
+      newHubbleTitleImage.setAttribute("alt", hubble.title);
+      newHubbleTitle.appendChild(newHubbleTitleImage);
+
+      // HUB ARRAY OF CARDS
+      newHubbleArray = document.createElement('div');
+      newHubbleArray.setAttribute("class", "hub__array");
+      hubble.cards.map((card, i) => {
+        newTradingCard = document.createElement('div');
+        newTradingCard.setAttribute("class", "hub__card");
+        newTradingCardWrapper = document.createElement('div');
+        newTradingCardWrapper.setAttribute("class", "trading-card component hub__trading-card");
+        newTradingCardImage = document.createElement('img');
+        newTradingCardImage.setAttribute('src', card.img);
+        newTradingCardImage.setAttribute('alt', card.alt);
+        newTradingCardWrapper.appendChild(newTradingCardImage);
+        newTradingCard.appendChild(newTradingCardWrapper);
+        newHubbleArray.appendChild(newTradingCard);
+      });
+
+      // HUB COPY
+      newHubbleCopy = document.createElement('div');
+      newHubbleCopy.setAttribute("class", "hub__copy");
+      newHubbleCopyPara = document.createElement('p');
+      newHubbleCopyPara.innerHTML = hubble.description;
+      newHubbleCopy.appendChild(newHubbleCopyPara);
+
+      // UNIVERSES
+      newHubbleUniverse = document.createElement('div');
+      newHubbleUniverse.setAttribute("class", i == 0 ? "universe universe--active" : "universe")
+      newHubbleUniverse.setAttribute("id", "universe-" + i)
+
+      newHubbleUniversePill = document.createElement('div');
+      newHubbleUniversePill.setAttribute("class", "hubble__pill pill");
+
+      newHubbleUniversePillPop = document.createElement('div');
+      newHubbleUniversePillPop.setAttribute("class", "pill__pop");
+      newHubbleUniversePillPop.addEventListener("click", () => {
+        hubbleAnimation('null', i)
+      });
+
+      newHubbleUniversePillPopImg = document.createElement('img');
+      newHubbleUniversePillPopImg.setAttribute("src", hubble.logo);
+      newHubbleUniversePillPopImg.setAttribute("alt", hubble.title);
+
+      newHubbleUniversePillPop.appendChild(newHubbleUniversePillPopImg);
+      newHubbleUniversePill.appendChild(newHubbleUniversePillPop);
+      newHubbleUniverse.appendChild(newHubbleUniversePill);
+
+      // Append New Children to this parent hub
+      newHubbleDiv.appendChild(newHubbleTitle);
+      newHubbleDiv.appendChild(newHubbleArray);
+      newHubbleDiv.appendChild(newHubbleCopy);
+
+      // put it on the document
+      document.getElementById("hubs-container").appendChild(newHubbleDiv);
+      document.getElementById("hubble-universes").appendChild(newHubbleUniverse);
+    });
+
+    // START THE HUBBLE
+    hubbleTimeline.to(".hub--active .hub__title", {
+      autoAlpha: 1,
+    });
+    hubbleTimeline.to(".hub--active .hub__card", {
+      autoAlpha: 1,
+    }, "<");
+    hubbleTimeline.to(".hub--active .hub__copy", {
+      autoAlpha: 1,
+    }, "<");
+    hubbleTimeline.to(".universe--active .pill .pill__pop", {
+      pointerEvents: "none",
+      backgroundColor: "rgba(0,0,0,0)",
+    }, "<");
+
+    // INIT THE CONTROLS
+    const prevActionButton = document.getElementById("prev");
+    const nextActionButton = document.getElementById("next");
+    prevActionButton.addEventListener('click', () => {
+      hubbleAnimation('prev', -1)
+    });
+    nextActionButton.addEventListener('click', () => {
+      hubbleAnimation('next', -1)
+    });
+
+    // DEFINE ELEMENTS
+    const hubs = document.querySelectorAll(".hub");
+    const pills = document.querySelectorAll(".pill .pill__pop");
+    let currentActiveHub = document.getElementsByClassName("hub--active")[0];
+
+    // THE HUBBLE ANIMATION
+    function hubbleAnimation(direction, id) {
+      /* Animation Constants */
+      const xTweenRange = 8;
+      const yTweenRange = 20;
+      const rotateTweenRange = 25;
+      const scaleTween = 0.96;
+
+      /* Assign and Class Animation Elements */
+      let currentActiveHubIndex = currentActiveHub.id;
+      currentActiveHubIndex = currentActiveHubIndex.charAt(4);
+      currentActiveHubIndex = Number(currentActiveHubIndex);
+
+      let currentActivePill = pills[currentActiveHubIndex];
+
+      let currentActiveHubTitle = currentActiveHub.querySelectorAll('.hub__title');
+      let currentActiveHubCards = currentActiveHub.querySelectorAll('.hub__card');
+      let currentActiveHubCopy = currentActiveHub.querySelectorAll('.hub__copy');
+
+      let nextChildHub = currentActiveHub.nextElementSibling ? currentActiveHub.nextElementSibling : document.getElementsByClassName("hub")[0];
+      let prevChildHub = currentActiveHub.previousElementSibling ? currentActiveHub.previousElementSibling : document.getElementsByClassName("hub")[hubs.length - 1];
+
+      let nextActiveHub = (direction == 'next') ? nextChildHub : prevChildHub;
+      if (id >= 0) {
+        nextActiveHub = document.getElementById("hub-" + id);
+        direction = (id > currentActiveHubIndex) ? 'next' : 'prev'
+      }
+
+      let nextActiveHubTitle = nextActiveHub.querySelectorAll('.hub__title');
+      let nextActiveHubCards = nextActiveHub.querySelectorAll('.hub__card');
+      let nextActiveHubCopy = nextActiveHub.querySelectorAll('.hub__copy');
+
+      let nextActiveHubIndex = nextActiveHub.id;
+      nextActiveHubIndex = nextActiveHubIndex.charAt(4);
+      nextActiveHubIndex = Number(nextActiveHubIndex);
+      let nextActivePill = pills[nextActiveHubIndex];
+
+      currentActiveHub.classList.remove("hub--active");
+      nextActiveHub.classList.add("hub--active");
+
+      /**
+       *  Set on-coming Stage
+       */
+      gsap.set([nextActiveHubTitle], {
+        x: direction == 'next' ? xTweenRange : -xTweenRange,
+        // y: yTweenRange,
+        autoAlpha: 0,
+        scale: scaleTween
+      });
+      gsap.set(nextActiveHubCards, {
+        autoAlpha: 0,
+        scale: scaleTween,
+        x: direction == 'next' ? xTweenRange : -xTweenRange,
+        rotationY: '-' + rotateTweenRange + 'deg',
+      });
+      gsap.set([nextActiveHubCopy], {
+        autoAlpha: 0,
+        // scale: scaleTween,
+        // y: -yTweenRange
+      });
+
+      /**
+       *  Animate Exit Stage
+       */
+      hubbleTimeline.to(currentActiveHubCards, {
+        duration: 0.2,
+        autoAlpha: 0,
+        scale: scaleTween,
+        x: direction == 'next' ? -xTweenRange : xTweenRange,
+        rotationY: rotateTweenRange + 'deg',
+        stagger: {
+          grid: "auto",
+          from: direction == 'next' ? "end" : "start",
+          each: 0.1
+        },
+      });
+      hubbleTimeline.to([currentActiveHubTitle], {
+        x: direction == 'next' ? -xTweenRange : xTweenRange,
+        // y: yTweenRange,
+        scale: scaleTween,
+        autoAlpha: 0
+      }, "<0.0");
+      hubbleTimeline.to([currentActiveHubCopy], {
+        autoAlpha: 0,
+        // scale: scaleTween,
+        // y: -yTweenRange
+      }, "<0.0");
+      hubbleTimeline.to(currentActivePill, {
+        backgroundColor: "#030328",
+        pointerEvents: "auto"
+      }, "<");
+
+      /**
+       *  Animate Enter Stage
+       */
+      hubbleTimeline.to(nextActiveHubCards, {
+        duration: 0.2,
+        autoAlpha: 1,
+        scale: 1,
+        x: 0,
+        rotationY: 0,
+        stagger: {
+          grid: "auto",
+          from: direction == 'next' ? "end" : "start",
+          each: 0.1
+        },
+      }, "<0.05");
+      hubbleTimeline.to([nextActiveHubTitle], {
+        x: 0,
+        y: 0,
+        scale: 1,
+        autoAlpha: 1
+      }, "<0.0");
+      hubbleTimeline.to([nextActiveHubCopy], {
+        autoAlpha: 1,
+        // scale: 1,
+        // y: 0
+      }, "<");
+      hubbleTimeline.to(nextActivePill, {
+        backgroundColor: "rgba(0,0,0,0)",
+        pointerEvents: "none"
+      }, "<");
+
+      currentActiveHub = nextActiveHub;
+
+
+    }
+
+  });
+</script>
